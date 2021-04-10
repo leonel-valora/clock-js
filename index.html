@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock JS & CSS</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">  
+    <style>
+        body {
+            background-image: linear-gradient( 94.3deg,  rgba(26,33,64,1) 10.9%, rgba(81,84,115,1) 87.1% );
+            background-size: cover;
+        }
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            text-align: center;
+        }
+        .clock {
+            width: 300px;
+            margin: auto;
+        }
+        .clock-face {
+            position: relative;
+            box-sizing: border-box;
+            width: 100%;
+            height: 300px;
+            border: 10px solid white;
+            border-radius: 50%;
+        }
+        .hand {
+            background: linear-gradient(90deg,  rgb(179, 179, 179) 0%,rgb(255, 255, 255) 100%);
+            position: absolute;
+            top: 50%;
+            transform-origin: 100%;
+            transform: rotate(90deg);
+            transition: all 0.05s;
+            transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+        }
+        .second-hand {
+            left: 10%;
+            width: 40%;
+            height: 1px;
+        }
+        .min-hand {
+            left: 15%;
+            width: 35%;
+            height: 3px;
+        }
+        .hour-hand {
+            left: 25%;
+            width: 25%;
+            height: 5px;
+        }
+        .js-color {
+            color: yellow;
+        }
+        .footer {
+            margin-top: 2.5rem;
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <h1>Reloj Analogico con <span class="js-color">JS</span></h1>
+        <div class="clock">
+            <div class="clock-face">
+                <div class="hand hour-hand"></div>
+                <div class="hand min-hand"></div>
+                <div class="hand second-hand"></div>
+            </div>
+        </div>
+    </main>
+    <footer class="container footer">
+        <code><a href="https://github.com/leonel01sys" class="js-color">@leonel01sys</a></code>
+    </footer>
+</body>
+<script>
+    const hands = document.querySelectorAll('.hand');
+    const secondHand = document.querySelector('.second-hand');
+    const minHand = document.querySelector('.min-hand');
+    const hourHand = document.querySelector('.hour-hand');
+
+    function setDate() {
+        const now = new Date();
+
+        let seconds = now.getSeconds();
+        const secondsDegree = ((seconds/60) * 360) + 90;
+        secondHand.style.transform = `rotate(${secondsDegree}deg)`;
+
+        let minutes = now.getMinutes();
+        const minutesDegree = ((minutes/60) * 360) + 90;
+        minHand.style.transform = `rotate(${minutesDegree}deg)`;
+        
+        let hours = now.getHours();
+        const hoursDegree = ((hours/12) * 360) + 90;
+        hourHand.style.transform = `rotate(${hoursDegree}deg)`;
+        
+        if (seconds === 0) {
+            hands.forEach(hand => hand.style.transitionDuration = '0s');
+        } else {
+            hands.forEach(hand => hand.style.transitionDuration = '0.05s');
+        }
+    }
+
+   setInterval(setDate, 1000);
+</script>
+</html>
